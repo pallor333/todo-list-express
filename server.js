@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require('express') //import express so it can be used
 const app = express() //shorthand to call express 
 const MongoClient = require('mongodb').MongoClient //import mongoDB
@@ -46,55 +45,10 @@ app.post('/addTodo', (request, response) => {
     .then(result => {
         console.log('Todo Added')
         response.redirect('/') //redirect to root URL
-=======
-const express = require('express')
-const app = express()
-const MongoClient = require('mongodb').MongoClient
-const PORT = 2121
-require('dotenv').config()
-
-
-let db,
-    dbConnectionStr = process.env.DB_STRING,
-    dbName = 'todo'
-
-MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-    .then(client => {
-        console.log(`Connected to ${dbName} Database`)
-        db = client.db(dbName)
-    })
-    
-app.set('view engine', 'ejs')
-app.use(express.static('public'))
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-
-
-app.get('/',async (request, response)=>{
-    const todoItems = await db.collection('todos').find().toArray()
-    const itemsLeft = await db.collection('todos').countDocuments({completed: false})
-    response.render('index.ejs', { items: todoItems, left: itemsLeft })
-    // db.collection('todos').find().toArray()
-    // .then(data => {
-    //     db.collection('todos').countDocuments({completed: false})
-    //     .then(itemsLeft => {
-    //         response.render('index.ejs', { items: data, left: itemsLeft })
-    //     })
-    // })
-    // .catch(error => console.error(error))
-})
-
-app.post('/addTodo', (request, response) => {
-    db.collection('todos').insertOne({thing: request.body.todoItem, completed: false})
-    .then(result => {
-        console.log('Todo Added')
-        response.redirect('/')
->>>>>>> 8247adf50f08bd10000a520d0c12dd01ccaa776b
     })
     .catch(error => console.error(error))
 })
 
-<<<<<<< HEAD
 //Define a route to handle PUT requests to '/markComplete'
 app.put('/markComplete', (request, response) => {
     //Update the first document that matches the 'thing' field from the request body
@@ -109,26 +63,11 @@ app.put('/markComplete', (request, response) => {
     .then(result => {
         console.log('Marked Complete') //print complete
         response.json('Marked Complete') //send JSON response for complete
-=======
-app.put('/markComplete', (request, response) => {
-    db.collection('todos').updateOne({thing: request.body.itemFromJS},{
-        $set: {
-            completed: true
-          }
-    },{
-        sort: {_id: -1},
-        upsert: false
-    })
-    .then(result => {
-        console.log('Marked Complete')
-        response.json('Marked Complete')
->>>>>>> 8247adf50f08bd10000a520d0c12dd01ccaa776b
     })
     .catch(error => console.error(error))
 
 })
 
-<<<<<<< HEAD
 // Define a route to handle PUT requests to '/markUnComplete'
 app.put('/markUnComplete', (request, response) => {
     // Update the first document that matches the 'thing' field from the request body
@@ -143,26 +82,11 @@ app.put('/markUnComplete', (request, response) => {
     .then(result => {
         console.log('Marked Complete') //log success
         response.json('Marked Complete') //send JSON response success
-=======
-app.put('/markUnComplete', (request, response) => {
-    db.collection('todos').updateOne({thing: request.body.itemFromJS},{
-        $set: {
-            completed: false
-          }
-    },{
-        sort: {_id: -1},
-        upsert: false
-    })
-    .then(result => {
-        console.log('Marked Complete')
-        response.json('Marked Complete')
->>>>>>> 8247adf50f08bd10000a520d0c12dd01ccaa776b
     })
     .catch(error => console.error(error))
 
 })
 
-<<<<<<< HEAD
 // Define a route to handle DELETE requests to '/deleteItem'
 app.delete('/deleteItem', (request, response) => {
     // Delete the first document that matches the 'thing' field from the request body
@@ -170,22 +94,12 @@ app.delete('/deleteItem', (request, response) => {
     .then(result => {
         console.log('Todo Deleted')  //log success
         response.json('Todo Deleted') //json response success
-=======
-app.delete('/deleteItem', (request, response) => {
-    db.collection('todos').deleteOne({thing: request.body.itemFromJS})
-    .then(result => {
-        console.log('Todo Deleted')
-        response.json('Todo Deleted')
->>>>>>> 8247adf50f08bd10000a520d0c12dd01ccaa776b
     })
     .catch(error => console.error(error))
 
 })
 
-<<<<<<< HEAD
 //start server and listen on specified port
-=======
->>>>>>> 8247adf50f08bd10000a520d0c12dd01ccaa776b
 app.listen(process.env.PORT || PORT, ()=>{
     console.log(`Server running on port ${PORT}`)
 })
